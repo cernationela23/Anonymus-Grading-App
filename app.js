@@ -5,6 +5,8 @@ const projectRoutes = require('./routes/projectRoutes');
 const deliverableRoutes = require('./routes/deliverableRoutes');
 const authRoutes = require('./routes/authRoutes');
 const juryRoutes = require('./routes/juryRoutes');
+const gradeRoutes = require('./routes/gradeRoutes');
+
 
 const app = express();
 app.use(express.json());
@@ -17,6 +19,8 @@ app.use('/auth', authRoutes);
 app.use('/projects', projectRoutes);
 app.use('/projects/:projectId/deliverables', deliverableRoutes);
 app.use('/projects/:projectId/deliverables/:deliverableId/jury', juryRoutes);
+app.use('/grades', gradeRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Server + DB + Toate modelele');
