@@ -18,8 +18,14 @@ sequelize.sync({ alter: true })
 
 app.use(express.json());
 
+const authRoutes = require('./routes/authRoutes');
+
+app.use('/auth', authRoutes);
+
+
 app.get('/', (req, res) => {
   res.send('Server + DB + Toate modelele ');
 });
 
 module.exports = app;
+
