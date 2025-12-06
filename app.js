@@ -4,6 +4,7 @@ const sequelize = require('./config/sequelize');
 const projectRoutes = require('./routes/projectRoutes');
 const deliverableRoutes = require('./routes/deliverableRoutes');
 const authRoutes = require('./routes/authRoutes');
+const juryRoutes = require('./routes/juryRoutes');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,7 @@ sequelize.sync({ alter: true })
 app.use('/auth', authRoutes);
 app.use('/projects', projectRoutes);
 app.use('/projects/:projectId/deliverables', deliverableRoutes);
+app.use('/projects/:projectId/deliverables/:deliverableId/jury', juryRoutes);
 
 app.get('/', (req, res) => {
   res.send('Server + DB + Toate modelele');

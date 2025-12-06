@@ -3,7 +3,6 @@ const router = express.Router({ mergeParams: true });
 const Deliverable = require('../models/Deliverable');
 const { authenticate, authorize } = require('../middleware/authMiddleware');
 
-// Creează un livrabil pentru proiect
 router.post('/', authenticate, authorize(['MP']), async (req, res) => {
   try {
     const { projectId } = req.params;
@@ -22,7 +21,6 @@ router.post('/', authenticate, authorize(['MP']), async (req, res) => {
   }
 });
 
-// Vezi toate livrabilele unui proiect
 router.get('/', authenticate, async (req, res) => {
   try {
     const { projectId } = req.params;
