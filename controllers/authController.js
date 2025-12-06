@@ -12,9 +12,11 @@ exports.register = async (req, res) => {
     const newStudent = await Student.create({ name, email, password, role });
 
     res.status(201).json({ message: 'Student creat cu succes', student: newStudent });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  }catch (err) {
+  console.log(err.errors);
+  res.status(500).json({ error: err.message, details: err.errors });
+}
+
 };
 
 exports.login = async (req, res) => {
