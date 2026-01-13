@@ -1,15 +1,19 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
+
 const gradeController = require('../controllers/gradeController');
-const { authenticate, authorize } = require('../middleware/authMiddleware');
+const { authenticate } = require('../middleware/authMiddleware');
 
-// creare notă
-router.post('/', authenticate, authorize(['JURAT', 'MP']), gradeController.createGrade);
+// Juratul asignat adauga nota pentru deliverableId din URL
+// POST /deliverables/:deliverableId/grades
+router.post('/', authenticate, gradeController.createGrade);
 
-// modificare notă
-router.put('/update/:gradeId', authenticate, authorize(['JURAT', 'MP']), gradeController.updateGrade);
+// Juratul isi modifica nota (time limit)
+// PUT /deliverables/:deliverableId/grades/:gradeId
+router.put('/:gradeId', authenticate, gradeController.updateGrade);
 
-// toate notele unui deliverable
-router.get('/deliverable/:deliverableId', authenticate, gradeController.getGradesForDeliverable);
+// Profesor/MP pot vedea notele (anonime) ale unui deliverable
+// GET /deliverables/:deliverableId/grades
+router.get('/', authenticate, gradeController.getGradesForDeliverable);
 
 module.exports = router;

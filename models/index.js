@@ -3,6 +3,7 @@ const Project = require('./Project');
 const Deliverable = require('./Deliverable');
 const JuryAssignment = require('./JuryAssignment');
 const Grade = require('./Grade');
+const ProjectMember = require('./ProjectMember');
 
 
 
@@ -59,11 +60,18 @@ Grade.belongsTo(Student, {
   foreignKey: 'studentId',
   as: 'grader' 
 });
+Project.hasMany(ProjectMember, { foreignKey: 'projectId', as: 'members' });
+ProjectMember.belongsTo(Project, { foreignKey: 'projectId', as: 'project' });
+
+Student.hasMany(ProjectMember, { foreignKey: 'studentId', as: 'projectMemberships' });
+ProjectMember.belongsTo(Student, { foreignKey: 'studentId', as: 'student' });
+
 
 module.exports = {
   Student,
   Project,
   Deliverable,
   JuryAssignment,
-  Grade
+  Grade,
+  ProjectMember
 };

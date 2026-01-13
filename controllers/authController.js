@@ -3,20 +3,18 @@ const Student = require('../models/Student');
 
 
 const SECRET = 'secret-test';
-
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, isProfessor } = req.body;
 
+    const role = isProfessor ? 'PROFESOR' : 'MP';
 
     const newStudent = await Student.create({ name, email, password, role });
 
-    res.status(201).json({ message: 'Utilizator inregistrat cu succes', student: newStudent });
-  }catch (err) {
-  console.log(err.errors);
-  res.status(500).json({ error: err.message, details: err.errors });
-}
-
+    res.status(201).json({ message: 'Student creat cu succes', student: newStudent });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.login = async (req, res) => {
