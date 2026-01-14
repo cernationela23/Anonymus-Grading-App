@@ -43,4 +43,25 @@ router.get('/', authenticate, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.delete("/:projectId/members/:studentId", authenticate, authorize(["MP", "PROFESOR"]), async (req, res) => {
+  try {
+    const { projectId, studentId } = req.params;
+
+    const member = await ProjectMember.findOne({
+      where: { projectId, studentId }
+    });
+
+    if (!member) {
+      return res.status(404).json({ error: "Member not found in this project" });
+    }
+
+    await member.destroy();
+
+    res.json({ message: "Member removed" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

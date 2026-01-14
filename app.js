@@ -9,6 +9,7 @@ const gradeRoutes = require('./routes/gradeRoutes');
 const juryMyRoutes = require('./routes/juryMyRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const professorRoutes = require('./routes/professorRoutes');
+const projectMemberRoutes = require('./routes/projectMemberRoutes');
 
 const cors = require('cors');
 const app = express();
@@ -30,6 +31,7 @@ app.use('/deliverables/:deliverableId/grades', gradeRoutes);
 app.use('/professor', professorRoutes);
 app.use('/deliverables/:deliverableId/grades', gradeRoutes);
 app.use('/jury', juryMyRoutes);
+app.use('/projects/:projectId/members', projectMemberRoutes);
 
 
 app.get('/', (req, res) => {

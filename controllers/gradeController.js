@@ -1,6 +1,6 @@
 const { Grade, JuryAssignment } = require('../models');
 
-const EDIT_WINDOW_MINUTES = 10; // poti schimba la 1-2 min pentru demo
+const EDIT_WINDOW_MINUTES = 120; // poti schimba la 1-2 min pentru demo
 
 exports.createGrade = async (req, res) => {
   try {

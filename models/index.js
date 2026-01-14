@@ -5,67 +5,34 @@ const JuryAssignment = require('./JuryAssignment');
 const Grade = require('./Grade');
 const ProjectMember = require('./ProjectMember');
 
+// owner project
+Student.hasMany(Project, { foreignKey: 'ownerStudentId', as: 'projects' });
+Project.belongsTo(Student, { foreignKey: 'ownerStudentId', as: 'owner' });
 
+// deliverables
+Project.hasMany(Deliverable, { foreignKey: 'projectId', as: 'deliverables' });
+Deliverable.belongsTo(Project, { foreignKey: 'projectId', as: 'project' });
 
-Student.hasMany(Project, { 
-  foreignKey: 'ownerStudentId',
-  as: 'projects' 
-});
-Project.belongsTo(Student, { 
-  foreignKey: 'ownerStudentId',
-  as: 'owner' 
-});
+// jury assignments
+Deliverable.hasMany(JuryAssignment, { foreignKey: 'deliverableId', as: 'juryAssignments' });
+JuryAssignment.belongsTo(Deliverable, { foreignKey: 'deliverableId', as: 'deliverable' });
 
-Project.hasMany(Deliverable, { 
-  foreignKey: 'projectId',
-  as: 'deliverables' 
-});
-Deliverable.belongsTo(Project, { 
-  foreignKey: 'projectId',
-  as: 'project' 
-});
+Student.hasMany(JuryAssignment, { foreignKey: 'studentId', as: 'juryAssignments' });
+JuryAssignment.belongsTo(Student, { foreignKey: 'studentId', as: 'juror' });
 
-Deliverable.hasMany(JuryAssignment, { 
-  foreignKey: 'deliverableId',
-  as: 'juryAssignments' 
-});
-JuryAssignment.belongsTo(Deliverable, { 
-  foreignKey: 'deliverableId',
-  as: 'deliverable' 
-});
+// grades
+Deliverable.hasMany(Grade, { foreignKey: 'deliverableId', as: 'grades' });
+Grade.belongsTo(Deliverable, { foreignKey: 'deliverableId', as: 'deliverable' });
 
-Student.hasMany(JuryAssignment, { 
-  foreignKey: 'studentId',
-  as: 'juryAssignments' 
-});
-JuryAssignment.belongsTo(Student, { 
-  foreignKey: 'studentId',
-  as: 'juror' 
-});
+Student.hasMany(Grade, { foreignKey: 'studentId', as: 'givenGrades' });
+Grade.belongsTo(Student, { foreignKey: 'studentId', as: 'grader' });
 
-Deliverable.hasMany(Grade, { 
-  foreignKey: 'deliverableId',
-  as: 'grades' 
-});
-Grade.belongsTo(Deliverable, { 
-  foreignKey: 'deliverableId',
-  as: 'deliverable' 
-});
-
-Student.hasMany(Grade, { 
-  foreignKey: 'studentId',
-  as: 'givenGrades' 
-});
-Grade.belongsTo(Student, { 
-  foreignKey: 'studentId',
-  as: 'grader' 
-});
-Project.hasMany(ProjectMember, { foreignKey: 'projectId', as: 'members' });
+// ✅ project members (ASTA iti trebuie pt include in GET)
+Project.hasMany(ProjectMember, { foreignKey: 'projectId', as: 'memberships' });
 ProjectMember.belongsTo(Project, { foreignKey: 'projectId', as: 'project' });
 
 Student.hasMany(ProjectMember, { foreignKey: 'studentId', as: 'projectMemberships' });
 ProjectMember.belongsTo(Student, { foreignKey: 'studentId', as: 'student' });
-
 
 module.exports = {
   Student,
