@@ -13,12 +13,22 @@ const projectMemberRoutes = require('./routes/projectMemberRoutes');
 
 const cors = require('cors');
 const app = express();
+const allowedOrigins = [
+  "http://localhost:3001",
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: "http://localhost:3001",
+  origin: function (origin, cb) {
+    // permite requests fără origin (Postman etc.)
+    if (!origin) return cb(null, true);
+    if (allowedOrigins.includes(origin)) return cb(null, true);
+    return cb(new Error("CORS blocked: " + origin));
+  },
   credentials: true
 }));
-app.use(express.json());
 
+app.use(express.json());
 sequelize.sync({ alter: true })
   .then(() => console.log(' Toate modelele sincronizate!'))
   .catch(err => console.error(' Eroare sync:', err.message));
